@@ -6,11 +6,19 @@ const ProductCard = ({ product, onAddToCart }) => {
 
   return (
     <div className="product-card">
-      <img src={image} alt={name} />
-      <h2>{name}</h2>
-      <p>{description}</p>
-      <p className="price">${price}</p>
-      <button onClick={() => onAddToCart(product)}>Add to Cart</button>
+      <div className="product-image">
+        <img src={image} alt={name} />
+      </div>
+      <div className="product-details">
+        <h2>{name}</h2>
+        <p className="product-description">{description}</p>
+      </div>
+      <div className="price-container">
+        <span className="price">{price.toLocaleString('en-IN')}</span>
+      </div>
+      <div className="button-container">
+        <button onClick={() => onAddToCart(product)}>Add to Cart</button>
+      </div>
     </div>
   );
 };

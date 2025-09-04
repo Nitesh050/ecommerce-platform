@@ -1,0 +1,69 @@
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-svg {
+  color: #fff;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.logo:hover .logo-svg {
+  transform: scale(1.1);
+}
+
+.logo-text {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(to right, #fff, #e6e6e6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for custom image logo */
+.custom-logo {
+  height: 40px;
+  width: auto;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.logo:hover .custom-logo {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .logo-text {
+    font-size: 1.6rem;
+  }
+  
+  .logo-svg,
+  .custom-logo {
+    height: 35px;
+    width: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    font-size: 1.4rem;
+  }
+  
+  .logo-svg,
+  .custom-logo {
+    height: 30px;
+    width: 30px;
+  }
+}
