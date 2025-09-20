@@ -1,15 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './styles/App.css';
 import Header from './components/Header';
 import ProductCard from './components/ProductCard';
 import Cart from './components/Cart';
 import Footer from './components/Footer';
+import Login from './components/login';
+import { fetchProducts } from './services/api';
 
 function App() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [perfumes, setPerfumes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const perfumes = [
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response = await fetchProducts();
+        if (response.data && response.data.length > 0) {
+          setPerfumes(response.data);
+        } else {
+          // If no products from API, use fallback data
+          setPerfumes(fallbackPerfumes);
+        }
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        // Use fallback data if API fails
+        setPerfumes(fallbackPerfumes);
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
+  // Temporary fallback data in case the API is not ready
+  const fallbackPerfumes = [
     {
       id: 1,
       name: "Floral Paradise",
@@ -129,30 +159,89 @@ function App() {
     return cart.reduce((total, item) => total + item.price, 0).toFixed(2);
   };
 
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
+  const location = useLocation();
+
   return (
     <div className="App">
       <Header 
-        cartCount={cart.length} 
-        toggleCart={() => setIsCartOpen(!isCartOpen)} 
+        cart={cart} 
+        setIsCartOpen={setIsCartOpen} 
+        isAuthenticated={isAuthenticated}
+        onLogout={handleLogout}
       />
-
-      <Cart 
-        isOpen={isCartOpen}
-        cart={cart}
-        removeFromCart={removeFromCart}
-        getTotalPrice={getTotalPrice}
-      />
-
-      <main className="product-grid">
-        {perfumes.map((perfume) => (
-          <ProductCard
-            key={perfume.id}
-            product={perfume}
-            onAddToCart={addToCart}
+        <main>
+        <Routes>
+          <Route 
+            path="/login" 
+            element={
+              !isAuthenticated ? (
+                <Login onLoginSuccess={handleLogin} />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            } 
           />
-        ))}
+          <Route
+            path="/"
+            element={
+              <div className="product-grid">
+                {loading ? (
+                  <div>Loading products...</div>
+                ) : error ? (
+                  <div>{error}</div>
+                ) : perfumes && perfumes.length > 0 ? (
+                  perfumes.map((perfume) => (
+                    <ProductCard
+                      key={perfume.id}
+                      perfume={perfume}
+                      cart={cart}
+                      setCart={setCart}
+                      isAuthenticated={isAuthenticated}
+                    />
+                  ))
+                ) : (
+                  <div>No products available</div>
+                )}
+              </div>
+            }
+          />
+          <Route
+            path="/new"
+            element={<div className="page-content"><h1>New Arrivals</h1><p>Coming Soon...</p></div>}
+          />
+          <Route
+            path="/collections"
+            element={<div className="page-content"><h1>Collections</h1><p>Coming Soon...</p></div>}
+          />
+          <Route
+            path="/bestsellers"
+            element={<div className="page-content"><h1>Best Sellers</h1><p>Coming Soon...</p></div>}
+          />
+          <Route
+            path="/gifts"
+            element={<div className="page-content"><h1>Gift Sets</h1><p>Coming Soon...</p></div>}
+          />
+          <Route
+            path="/about"
+            element={<div className="page-content"><h1>About Us</h1><p>Coming Soon...</p></div>}
+          />
+          <Route
+            path="*"
+            element={<Navigate to="/" replace />}
+          />
+        </Routes>
       </main>
-
+      {isAuthenticated && isCartOpen && (
+        <Cart cart={cart} setCart={setCart} setIsCartOpen={setIsCartOpen} />
+      )}
       <Footer />
     </div>
   );

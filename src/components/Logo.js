@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/Logo.css';
 
 const Logo = () => {
   return (
     <div className="logo-container">
-      <div className="logo">
+      <Link to="/" className="logo">
         {/* This is a temporary SVG logo that you can replace with your own image */}
         <svg 
           width="40" 
@@ -24,7 +25,7 @@ const Logo = () => {
           />
         </svg>
         <span className="logo-text">Senture</span>
-      </div>
+      </Link>
     </div>
   );
 };
@@ -34,12 +35,14 @@ const Logo = () => {
 const Logo = () => {
   return (
     <div className="logo-container">
-      <img 
-        src="/path/to/your/logo.png" 
-        alt="Senture Perfumes Logo" 
-        className="custom-logo"
-      />
-      <span className="logo-text">Senture</span>
+      <Link to="/" className="logo">
+        <img 
+          src="/path/to/your/logo.png" 
+          alt="Senture Perfumes Logo" 
+          className="custom-logo"
+        />
+        <span className="logo-text">Senture</span>
+      </Link>
     </div>
   );
 };

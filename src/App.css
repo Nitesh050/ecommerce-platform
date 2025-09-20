@@ -5,6 +5,16 @@
   flex-direction: column;
 }
 
+/* Global styles to remove underlines from links */
+a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
 .header {
   background: linear-gradient(135deg, #2c3e50, #3498db);
   color: white;

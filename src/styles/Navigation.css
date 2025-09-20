@@ -43,6 +43,7 @@
   white-space: nowrap;
   border-radius: 20px;
   font-size: 0.9rem;
+  text-decoration: none !important;
 }
 
 .nav-item:hover {

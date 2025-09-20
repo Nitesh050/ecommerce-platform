@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/HeaderNav.css';
 
 const HeaderNav = () => {
@@ -15,34 +16,40 @@ const HeaderNav = () => {
           <button className="close-button" onClick={() => setIsOpen(false)}>×</button>
           <ul className="nav-list">
             <li>
-              <a href="/login" onClick={(e) => e.preventDefault()}>
+              <Link to="/login" onClick={() => setIsOpen(false)}>
                 <span className="nav-icon">👤</span>
                 Login
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/signup" onClick={(e) => e.preventDefault()}>
+              <Link to="/login" onClick={() => setIsOpen(false)}>
                 <span className="nav-icon">✨</span>
                 Sign Up
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/history" onClick={(e) => e.preventDefault()}>
+              <Link to="/" onClick={() => setIsOpen(false)}>
+                <span className="nav-icon">🏠</span>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/history" onClick={() => setIsOpen(false)}>
                 <span className="nav-icon">📜</span>
                 Order History
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/help" onClick={(e) => e.preventDefault()}>
+              <Link to="/help" onClick={() => setIsOpen(false)}>
                 <span className="nav-icon">❓</span>
                 Help & Support
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/about" onClick={(e) => e.preventDefault()}>
+              <Link to="/about" onClick={() => setIsOpen(false)}>
                 <span className="nav-icon">ℹ️</span>
                 About Us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
