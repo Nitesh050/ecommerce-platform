@@ -135,7 +135,7 @@ function App() {
       id: 14,
       name: "Coffee Noir",
       price: 699,
-      description: "Rich blend of roasted coffee, dark cocoa, and vanilla for coffee lovers",
+      description: "Poor blend of roasted coffee, dark cocoa, and vanilla for coffee lovers",
       image: "https://via.placeholder.com/150"
     },
     {
