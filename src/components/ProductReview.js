@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // the reviewer added (bold, links, etc.) via the review editor.
 const formatTimestamp = (date) => new Date(date).toLocaleDateString();
 
-const ReviewDisplay = ({ review }) => {
+const ProductReview = ({ review }) => {
   return (
     <div className="review-display">
       <span className="review-date">{formatTimestamp(review.createdAt)}</span>
@@ -14,4 +14,4 @@ const ReviewDisplay = ({ review }) => {
   );
 };
 
-export default ReviewDisplay;
+export default ProductReview;
