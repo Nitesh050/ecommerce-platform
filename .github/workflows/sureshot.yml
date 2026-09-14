@@ -1,0 +1,54 @@
+name: SureShot Scan
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: app
+
+      - name: Checkout SureShot
+        uses: actions/checkout@v4
+        with:
+          repository: Nitesh050/SureShot
+          path: sureshot
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install semgrep
+        run: pip install semgrep
+
+      - name: Install trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
+            | sh -s -- -b /usr/local/bin
+
+      - name: Sync SureShot
+        working-directory: sureshot
+        run: uv sync
+
+      - name: Run SureShot scan
+        working-directory: sureshot
+        run: |
+          uv run sureshot scan "$GITHUB_WORKSPACE/app" \
+            --no-triage \
+            --scanners semgrep,trivy \
+            --sarif "$GITHUB_WORKSPACE/sureshot-results.sarif" \
+          || true
+
+      - name: Upload SARIF to code scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: sureshot-results.sarif
