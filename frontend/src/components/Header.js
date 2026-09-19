@@ -12,9 +12,9 @@ const Header = ({ cartCount, toggleCart }) => {
           <HeaderNav />
           <Logo />
         </div>
-        <div className="cart-icon" onClick={toggleCart}>
+        <button className="cart-icon" onClick={toggleCart} aria-label="Toggle cart">
           🛒 <span className="cart-count">{cartCount}</span>
-        </div>
+        </button>
       </header>
       <Navigation />
     </div>

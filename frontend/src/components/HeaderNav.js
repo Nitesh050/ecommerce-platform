@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/HeaderNav.css';
 
 const HeaderNav = () => {
@@ -15,16 +16,16 @@ const HeaderNav = () => {
           <button className="close-button" onClick={() => setIsOpen(false)}>×</button>
           <ul className="nav-list">
             <li>
-              <a href="/login" onClick={(e) => e.preventDefault()}>
+              <Link to="/login" onClick={() => setIsOpen(false)}>
                 <span className="nav-icon">👤</span>
                 Login
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/signup" onClick={(e) => e.preventDefault()}>
+              <Link to="/signup" onClick={() => setIsOpen(false)}>
                 <span className="nav-icon">✨</span>
                 Sign Up
-              </a>
+              </Link>
             </li>
             <li>
               <a href="/history" onClick={(e) => e.preventDefault()}>

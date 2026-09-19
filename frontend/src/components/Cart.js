@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Cart.css';
+import { formatPrice } from '../utils/currency';
 
 const Cart = ({ isOpen, cart, removeFromCart, getTotalPrice }) => {
   if (!isOpen) return null;
@@ -16,13 +17,13 @@ const Cart = ({ isOpen, cart, removeFromCart, getTotalPrice }) => {
               <img src={item.image} alt={item.name} />
               <div className="cart-item-details">
                 <h3>{item.name}</h3>
-                <p>₹{item.price.toLocaleString('en-IN')}</p>
+                <p>{formatPrice(item.price)}</p>
               </div>
               <button onClick={() => removeFromCart(index)}>Remove</button>
             </div>
           ))}
           <div className="cart-total">
-            <h3>Total: ₹{parseInt(getTotalPrice()).toLocaleString('en-IN')}</h3>
+            <h3>Total: {formatPrice(getTotalPrice())}</h3>
             <button className="checkout-button">Checkout</button>
           </div>
         </>
