@@ -11,16 +11,36 @@ const SignupPage = () => {
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (password !== confirmPassword) {
+    setError('Passwords do not match.');
+    setSubmitted(false);
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:3001/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      setError(data.error || 'Signup failed');
       setSubmitted(false);
       return;
     }
+
     setError('');
     setSubmitted(true);
-  };
+  } catch (err) {
+    setError('Could not reach the server. Is the backend running?');
+    setSubmitted(false);
+  }
+};
+
 
   return (
     <AuthCard
@@ -67,7 +87,7 @@ const SignupPage = () => {
         <button type="submit" className="auth-submit">Sign Up</button>
         {error && <p className="auth-form-error">{error}</p>}
         {submitted && (
-          <p className="auth-form-notice">Sign up isn't connected to a backend yet.</p>
+          <p className="auth-form-notice">Account created successfully! You can now log in.</p>
         )}
       </form>
 

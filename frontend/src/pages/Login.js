@@ -6,11 +6,32 @@ import SocialLoginButtons from '../components/SocialLoginButtons';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+
+    try {
+      const response = await fetch('http://localhost:3001/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Login failed');
+        setSubmitted(false);
+        return;
+      }
+
+      setError('');
+      setSubmitted(true);
+    } catch (err) {
+      setError('Could not reach the server. Is the backend running?');
+      setSubmitted(false);
+    }
   };
 
   return (
@@ -38,8 +59,9 @@ const LoginPage = () => {
         />
 
         <button type="submit" className="auth-submit">Log In</button>
+        {error && <p className="auth-form-error">{error}</p>}
         {submitted && (
-          <p className="auth-form-notice">Login isn't connected to a backend yet.</p>
+          <p className="auth-form-notice">Logged in successfully! (Session/token handling comes next — refreshing the page will lose this state for now.)</p>
         )}
       </form>
 
