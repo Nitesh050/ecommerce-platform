@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../database');
+const authenticateToken = require('../middleware/auth');
 
 // POST /auth/signup
 router.post('/signup', async (req, res) => {
@@ -53,6 +54,11 @@ router.post('/login', async (req, res) => {
   );
 
   res.json({ id: user.id, name: user.name, email: user.email, token });
+});
+
+// GET /auth/me - returns whoever the token belongs to
+router.get('/me', authenticateToken, (req, res) => {
+  res.json({ userId: req.user.userId });
 });
 
 module.exports = router;
