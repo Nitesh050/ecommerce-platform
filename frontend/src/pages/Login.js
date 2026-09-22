@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import AuthCard from '../components/AuthCard';
 import SocialLoginButtons from '../components/SocialLoginButtons';
 
-const LoginPage = () => {
+const LoginPage = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -28,6 +28,7 @@ const LoginPage = () => {
 
       setError('');
       setSubmitted(true);
+      onLoginSuccess(data.token, { id: data.id, name: data.name, email: data.email });
     } catch (err) {
       setError('Could not reach the server. Is the backend running?');
       setSubmitted(false);
@@ -61,7 +62,7 @@ const LoginPage = () => {
         <button type="submit" className="auth-submit">Log In</button>
         {error && <p className="auth-form-error">{error}</p>}
         {submitted && (
-          <p className="auth-form-notice">Logged in successfully! (Session/token handling comes next — refreshing the page will lose this state for now.)</p>
+          <p className="auth-form-notice">Logged in successfully!</p>
         )}
       </form>
 
