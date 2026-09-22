@@ -37,7 +37,7 @@ const Cart = ({ isOpen, cart, removeFromCart, getTotalPrice, closeCart }) => {
           <div className="cart-total">
             <h3>Total: {formatPrice(getTotalPrice())}</h3>
             <button className="checkout-button" onClick={handleProceedToPayment}>
-              Proceed to Payment
+              Proceed to Payment <span className="checkout-button-arrow">→</span>
             </button>
           </div>
         </>
