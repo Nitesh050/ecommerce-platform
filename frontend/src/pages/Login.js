@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthCard from '../components/AuthCard';
 import SocialLoginButtons from '../components/SocialLoginButtons';
 
@@ -7,7 +7,7 @@ const LoginPage = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,16 +22,14 @@ const LoginPage = ({ onLoginSuccess }) => {
 
       if (!response.ok) {
         setError(data.error || 'Login failed');
-        setSubmitted(false);
         return;
       }
 
       setError('');
-      setSubmitted(true);
       onLoginSuccess(data.token, { id: data.id, name: data.name, email: data.email });
+      navigate('/');
     } catch (err) {
       setError('Could not reach the server. Is the backend running?');
-      setSubmitted(false);
     }
   };
 
@@ -61,9 +59,6 @@ const LoginPage = ({ onLoginSuccess }) => {
 
         <button type="submit" className="auth-submit">Log In</button>
         {error && <p className="auth-form-error">{error}</p>}
-        {submitted && (
-          <p className="auth-form-notice">Logged in successfully!</p>
-        )}
       </form>
 
       <div className="auth-divider"><span>or</span></div>
