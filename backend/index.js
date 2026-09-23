@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 
 app.use('/products', require('./routes/products'));
 app.use('/auth', require('./routes/auth'));
+app.use('/cart', require('./routes/cart'));
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

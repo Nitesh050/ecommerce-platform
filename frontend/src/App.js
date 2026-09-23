@@ -11,6 +11,7 @@ import { useCart } from './hooks/useCart';
 import { useAuth } from './hooks/useAuth';
 
 function App() {
+  const { user, token, login, logout } = useAuth();
   const {
     cart,
     isCartOpen,
@@ -18,10 +19,15 @@ function App() {
     closeCart,
     addToCart,
     removeFromCart,
+    mergeGuestCart,
     getTotalPrice,
     getTotalItems
-  } = useCart();
-  const { user, login, logout } = useAuth();
+  } = useCart(token);
+
+  const handleLoginSuccess = async (newToken, newUser) => {
+    login(newToken, newUser);
+    await mergeGuestCart(newToken);
+  };
 
   return (
     <div className="App">
@@ -37,7 +43,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage onAddToCart={addToCart} />} />
-        <Route path="/login" element={<LoginPage onLoginSuccess={login} />} />
+        <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/payment" element={<PaymentPage cart={cart} getTotalPrice={getTotalPrice} />} />
       </Routes>
